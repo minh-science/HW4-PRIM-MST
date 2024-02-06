@@ -33,7 +33,13 @@ def check_mst(adj_mat: np.ndarray,
     for i in range(mst.shape[0]):
         for j in range(i+1):
             total += mst[i, j]
+    # start edit
+    # print("this is the mst \n", mst)
+    print("TOTAL:", total)
+    # end edit
     assert approx_equal(total, expected_weight), 'Proposed MST has incorrect expected weight'
+
+
 
 
 def test_mst_small():
@@ -47,6 +53,7 @@ def test_mst_small():
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 8)
 
+# test_mst_small()
 
 def test_mst_single_cell_data():
     """
@@ -64,6 +71,7 @@ def test_mst_single_cell_data():
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 57.263561605571695)
 
+test_mst_single_cell_data()
 
 def test_mst_student():
     """
@@ -72,3 +80,6 @@ def test_mst_student():
     
     """
     pass
+
+
+

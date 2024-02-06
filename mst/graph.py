@@ -41,4 +41,81 @@ class Graph:
         `heapify`, `heappop`, and `heappush` functions.
 
         """
-        self.mst = None
+
+        matrix = self.adj_mat
+        # print(matrix.shape)
+
+        # initlize vertices
+        V = [i for i in range(self.adj_mat.shape[0])]
+        # print("this is V:", V)
+
+        # initalize edges 
+        E = []
+        for i in range(0,self.adj_mat.shape[0]):
+            for j in range(0, self.adj_mat.shape[0]):
+                E.append((i,j))
+        # print("this is E:", E)'
+                
+
+        # s is the first node in V
+        s = 0 
+
+        # initialize S and T
+        S = [] # spanning tree set   
+        T = [] # atttachment cost
+
+        pi = {v:float('inf')  for v in V}
+        pred = {v: None for v in V}
+        pi[0] = 0 
+        # print(pred)
+        # print("this is pi", pi)
+
+        pq = [(0, 0)] # tuple: (weight, neighbor)
+
+        # create empty priority queue
+        pq1 = []
+        
+        heapq.heappush(pq1, ( matrix[s][s] , (s,s) )  )
+        self.mst = np.zeros_like(self.adj_mat)
+
+        # # print("pq1", pq1)
+        while len(pq1) != 0:
+            pop = heapq.heappop(pq1)
+            # print(pq1)
+            # print("pop:", pop)
+            w = pop[0]
+            u, v = pop[1]
+            print("u,v,w:",u, v, w)
+            # if u in S:
+            #     print("wheee")            
+            if v not in S:
+                for v_i in V:
+                    pi_v = matrix[v][v_i]
+                    if pi_v > 0:
+                        heapq.heappush(pq1, ( pi_v , (v, v_i) )  )
+                        # self.mst[v,u] = w
+            if u in S:
+                if v not in S:
+                    self.mst[v,u] = w
+                    self.mst[u,v] = w
+                    T.append(w)
+                    print(T)
+            S.append(v)
+            
+# heapq, heap-push, make sure it works and removes from the queue properly       
+                            
+        print(self.mst)      
+        print(T)
+        total = 0            
+        for i in range(self.mst.shape[0]):
+            for j in range(i+1):
+                total += self.mst[i, j]
+        print(total)
+
+        
+
+
+file_path = './data/small.csv'
+g = Graph(file_path)
+mst = g.construct_mst()
+# print("construct mst: \n", mst)
