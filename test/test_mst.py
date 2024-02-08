@@ -67,7 +67,7 @@ def test_mst_small():
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 8)
     # edit
-    print("mst nonzero", g.mst.nonzero)
+    # print("mst nonzero", g.mst.nonzero)
     # end edit
 
 test_mst_small()
@@ -96,4 +96,9 @@ def test_mst_student():
     TODO: Write at least one unit test for MST construction.
     
     """
-    pass
+    file_path = './data/CLRS_625_undirected.csv'
+    g = Graph(file_path)
+    g.construct_mst()
+    check_mst(g.adj_mat, g.mst, 4+8+2+4+2+1+7+9)
+    print("WHEEEEE")
+test_mst_student()

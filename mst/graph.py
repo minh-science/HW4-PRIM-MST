@@ -109,7 +109,6 @@ class Graph:
                     self.mst_edges.append( (u,v) )
             S.append(v)
             
-# heapq, heap-push, make sure it works and removes from the queue properly       
                             
         # print(self.mst)      
         # print(T)
@@ -122,7 +121,7 @@ class Graph:
         
 
 
-file_path = './data/small.csv'
-g = Graph(file_path)
-mst = g.construct_mst()
+# file_path = './data/small.csv'
+# g = Graph(file_path)
+# mst = g.construct_mst()
 # print("construct mst: \n", mst)
