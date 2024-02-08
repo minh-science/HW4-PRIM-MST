@@ -20,8 +20,7 @@ class Graph:
         else: 
             raise TypeError('Input must be a valid path or an adjacency matrix')
         self.mst = None
-        # store edges of MST 
-        self.mst_edges = []
+        self.mst_edges = [] # store edges of MST 
 
     def _load_adjacency_matrix_from_csv(self, path: str) -> np.ndarray:
         with open(path) as f:
@@ -57,36 +56,32 @@ class Graph:
             for j in range(0, self.adj_mat.shape[0]):
                 E.append((i,j))
         # print("this is E:", E)'
-                
-
-        # s is the first node in V
-        s = 0 
 
         # initialize S and T
         S = [] # spanning tree set   
         T = [] # atttachment cost
 
-        pi = {v:float('inf')  for v in V}
-        pred = {v: None for v in V}
-        pi[0] = 0 
+        # code for Prim's without using heapq (based on the lecture)
+        # pi = {v:float('inf')  for v in V}
+        # pred = {v: None for v in V}
+        # pi[0] = 0 
         # print(pred)
         # print("this is pi", pi)
 
-        pq = [(0, 0)] # tuple: (weight, neighbor)
 
         # create empty priority queue
-        pq1 = []
-        
+        pq = []
+
         # add (weight = 0, (u = 0, v = 0)) to priority queue as the source node 
-        heapq.heappush(pq1, ( matrix[s][s] , (s,s) )  ) 
+        heapq.heappush(pq, ( matrix[0][0] , (0,0) )  ) 
+
+        # create empty MST with same dimensions as the adjacency matrix
         self.mst = np.zeros_like(self.adj_mat)
 
-        # # print("pq1", pq1)
-
-        # go through terms in priority queue 
-        while len(pq1) != 0: 
-            pop = heapq.heappop(pq1) # removes lowest weight term from priority queue
-            # print(pq1)
+        # go through terms in priority queue and builds the MST 
+        while len(pq) != 0: 
+            pop = heapq.heappop(pq) # removes lowest weight term from priority queue
+            # print(pq)
             # print("pop:", pop)
             w = pop[0] # weight of lowest weight term (highest priority) in priority queue
             u, v = pop[1] # gets edge of lowest weight term
@@ -94,20 +89,20 @@ class Graph:
 
             # add all edges that are connected to u and not in S to the priority queue
             if v not in S: # check if destination node is in explored set S
-                for v_i in V: # goes through all verticies in V, v_i is the edge that v may be connected to 
-                    pi_v = matrix[v][v_i]
+                for v_i in V: # goes through all verticies in V, v_i is the edge (v,v_i) that v may be connected to 
+                    pi_v = matrix[v][v_i] 
                     if pi_v > 0: # only adds (pi_v, (v, v_i)) if v (the node being added to the explored set) is connected to v_i (a possible frontier node)
-                        heapq.heappush(pq1, ( pi_v , (v, v_i) )  ) # pushes to queue
+                        heapq.heappush(pq, ( pi_v , (v, v_i) )  ) # pushes to priority queue
 
             # if u is in the explored set and if v is not in the explored set, add to the minimum spanning tree (priority is assured via the priority queue)
             if u in S: 
                 if v not in S: 
-                    self.mst[v,u] = w
-                    self.mst[u,v] = w
+                    self.mst[v,u] = w # assigns weight to edge
+                    self.mst[u,v] = w # MST is symmetric for an undirected graph 
                     T.append(w)
-                    # print(T)
-                    self.mst_edges.append( (u,v) )
-            S.append(v)
+                    self.mst_edges.append( (u,v) ) 
+            
+            S.append(v) # adds the explored vertex v to the explored set S
             
                             
         # print(self.mst)      

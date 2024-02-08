@@ -44,10 +44,12 @@ def check_mst(adj_mat: np.ndarray,
     assert mst.shape[0]-1 == np.count_nonzero(mst)*0.5
     
     # asserts MST is connected
-    vertices = set() # set of vertices
-    connected = set() # set of vertices connected by MST
+    
+    vertices = set() # set of vertices in adajcency matrix
     for i in range(adj_mat.shape[0]):
         vertices.add(i)
+
+    connected = set() # set of vertices connected by MST
     for i in range(mst.shape[0]):
         for j in range(mst.shape[1]):
             if j != 0:
