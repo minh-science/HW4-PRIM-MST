@@ -77,27 +77,31 @@ class Graph:
         # create empty priority queue
         pq1 = []
         
-        heapq.heappush(pq1, ( matrix[s][s] , (s,s) )  )
+        # add (weight = 0, (u = 0, v = 0)) to priority queue as the source node 
+        heapq.heappush(pq1, ( matrix[s][s] , (s,s) )  ) 
         self.mst = np.zeros_like(self.adj_mat)
 
         # # print("pq1", pq1)
-        while len(pq1) != 0:
-            pop = heapq.heappop(pq1)
+
+        # go through terms in priority queue 
+        while len(pq1) != 0: 
+            pop = heapq.heappop(pq1) # removes lowest weight term from priority queue
             # print(pq1)
             # print("pop:", pop)
-            w = pop[0]
-            u, v = pop[1]
+            w = pop[0] # weight of lowest weight term (highest priority) in priority queue
+            u, v = pop[1] # gets edge of lowest weight term
             # print("u,v,w:",u, v, w)
-            # if u in S:
-            #     print("wheee")            
-            if v not in S:
-                for v_i in V:
+
+            # add all edges that are connected to u and not in S to the priority queue
+            if v not in S: # check if destination node is in explored set S
+                for v_i in V: # goes through all verticies in V, v_i is the edge that v may be connected to 
                     pi_v = matrix[v][v_i]
-                    if pi_v > 0:
-                        heapq.heappush(pq1, ( pi_v , (v, v_i) )  )
-                        # self.mst[v,u] = w
-            if u in S:
-                if v not in S:
+                    if pi_v > 0: # only adds (pi_v, (v, v_i)) if v (the node being added to the explored set) is connected to v_i (a possible frontier node)
+                        heapq.heappush(pq1, ( pi_v , (v, v_i) )  ) # pushes to queue
+
+            # if u is in the explored set and if v is not in the explored set, add to the minimum spanning tree (priority is assured via the priority queue)
+            if u in S: 
+                if v not in S: 
                     self.mst[v,u] = w
                     self.mst[u,v] = w
                     T.append(w)
