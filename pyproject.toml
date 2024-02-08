@@ -21,7 +21,8 @@ dependencies = [
     "pytest",
 	"typing",
 	"heapq",
-	"numpy"
+	"numpy",
+	"scikit-learn"
 ]
 
 [project.urls]
