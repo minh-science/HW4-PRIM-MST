@@ -1,5 +1,5 @@
+heapq
 pytest 
 numpy
 typing
 scikit-learn
-heapq

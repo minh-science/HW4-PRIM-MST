@@ -85,7 +85,9 @@ class Graph:
             # print("pop:", pop)
             w = pop[0]
             u, v = pop[1]
-            # print("u,v,w:",u, v, w)
+            print("u,v,w:",u, v, w)
+            # if u in S:
+            #     print("wheee")            
             if v not in S:
                 for v_i in V:
                     pi_v = matrix[v][v_i]
@@ -97,9 +99,10 @@ class Graph:
                     self.mst[v,u] = w
                     self.mst[u,v] = w
                     T.append(w)
-                    # print(T)
+                    print(T)
             S.append(v)
-             
+            
+# heapq, heap-push, make sure it works and removes from the queue properly       
                             
         print(self.mst)      
         print(T)
