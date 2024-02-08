@@ -20,6 +20,8 @@ dynamic = ["version", "description"]
 dependencies = [
     "pytest",
 	"typing",
+	"heapq",
+	"numpy"
 ]
 
 [project.urls]
