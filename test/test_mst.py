@@ -34,14 +34,27 @@ def check_mst(adj_mat: np.ndarray,
     for i in range(mst.shape[0]):
         for j in range(i+1):
             total += mst[i, j]
-    # start edit
-    # print("this is the mst \n", mst)
-    print("TOTAL:", total)
-    # end edit
     assert approx_equal(total, expected_weight), 'Proposed MST has incorrect expected weight'
 
 
+    # assert shape of the matrices are the same
+    assert mst.shape == adj_mat.shape
 
+    # asserts MST has V-1 edges (number of nonzero mst values divided by 2 because mst includes (u,v) and (v,u) edges )
+    assert mst.shape[0]-1 == np.count_nonzero(mst)*0.5
+    
+    # asserts MST is connected
+    vertices = set() # set of vertices
+    connected = set() # set of vertices connected by MST
+    for i in range(adj_mat.shape[0]):
+        vertices.add(i)
+    for i in range(mst.shape[0]):
+        for j in range(mst.shape[1]):
+            if j != 0:
+                connected.add(i)
+    # print(vertices)
+    # print(connected)
+    assert sorted(connected) == sorted(vertices)
 
 def test_mst_small():
     """
@@ -53,8 +66,11 @@ def test_mst_small():
     g = Graph(file_path)
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 8)
+    # edit
+    print("mst nonzero", g.mst.nonzero)
+    # end edit
 
-# test_mst_small()
+test_mst_small()
 
 def test_mst_single_cell_data():
     """
@@ -72,7 +88,7 @@ def test_mst_single_cell_data():
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 57.263561605571695)
 
-# test_mst_single_cell_data()
+test_mst_single_cell_data()
 
 def test_mst_student():
     """

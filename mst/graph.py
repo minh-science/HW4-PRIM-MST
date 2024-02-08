@@ -20,6 +20,8 @@ class Graph:
         else: 
             raise TypeError('Input must be a valid path or an adjacency matrix')
         self.mst = None
+        # store edges of MST 
+        self.mst_edges = []
 
     def _load_adjacency_matrix_from_csv(self, path: str) -> np.ndarray:
         with open(path) as f:
@@ -85,7 +87,7 @@ class Graph:
             # print("pop:", pop)
             w = pop[0]
             u, v = pop[1]
-            print("u,v,w:",u, v, w)
+            # print("u,v,w:",u, v, w)
             # if u in S:
             #     print("wheee")            
             if v not in S:
@@ -99,18 +101,19 @@ class Graph:
                     self.mst[v,u] = w
                     self.mst[u,v] = w
                     T.append(w)
-                    print(T)
+                    # print(T)
+                    self.mst_edges.append( (u,v) )
             S.append(v)
             
 # heapq, heap-push, make sure it works and removes from the queue properly       
                             
-        print(self.mst)      
-        print(T)
+        # print(self.mst)      
+        # print(T)
         total = 0            
         for i in range(self.mst.shape[0]):
             for j in range(i+1):
                 total += self.mst[i, j]
-        print(total)
+        # print(total)
 
         
 
