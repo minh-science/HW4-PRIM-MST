@@ -96,9 +96,10 @@ def test_mst_student():
     TODO: Write at least one unit test for MST construction.
     
     """
+    # test based on implementation of Prim's in Introduction to Algorithms 3e by Cormen, Leiserson, Rivest, and Stein, page 625
     file_path = './data/CLRS_625_undirected.csv'
     g = Graph(file_path)
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 4+8+2+4+2+1+7+9)
-    print("WHEEEEE")
+
 test_mst_student()
