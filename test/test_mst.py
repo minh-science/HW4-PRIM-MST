@@ -43,17 +43,15 @@ def check_mst(adj_mat: np.ndarray,
     # asserts MST has V-1 edges (number of nonzero mst values divided by 2 because mst includes (u,v) and (v,u) edges )
     assert mst.shape[0]-1 == np.count_nonzero(mst)*0.5
     
-    # asserts MST is connected
-    
+    # asserts MST is connected, MST is connected if the all vertices are in included in the spanning tree 
     vertices = set() # set of vertices in adajcency matrix
     for i in range(adj_mat.shape[0]):
         vertices.add(i)
-
     connected = set() # set of vertices connected by MST
-    for i in range(mst.shape[0]):
-        for j in range(mst.shape[1]):
-            if j != 0:
-                connected.add(i)
+    for u in range(mst.shape[0]): 
+        for v in range(mst.shape[1]):
+            if v != 0:
+                connected.add(u)
     # print(vertices)
     # print(connected)
     assert sorted(connected) == sorted(vertices)
